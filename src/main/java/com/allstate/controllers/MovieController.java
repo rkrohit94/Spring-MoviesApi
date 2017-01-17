@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by localadmin on 16/01/17.
- */
 
 @RestController
 @RequestMapping(value = "/movies")
@@ -36,7 +34,16 @@ public class MovieController {
     public Movie findOneMovie(@PathVariable int id){
         return this.movieService.findById(id);
     };
-    public void update(){};
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Movie findOneMovie(@RequestParam Map<String,String> query){
+        return this.movieService.findByTitle(query.get("title"));
+    };
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public Movie update(@PathVariable int id , @RequestBody Movie movie){
+        return this.movieService.update(id, movie);
+    };
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable int id){
@@ -44,3 +51,4 @@ public class MovieController {
     };
 
 }
+
